@@ -46,14 +46,28 @@ defmodule LineFollow do
   end
 
   def controller do
+    forward
+    go_straight
+  end
+  
+  def go_straight do
     receive do
       {:color, :black} ->
-        forward
-        controller
+        go_straight
       {:color, _c } ->
-        stop
+        turn_left
+        seek_left
     end
   end
 
+  def seek_left do
+    receive do
+      {:color, :black} ->
+        forward
+        go_straight
+      {:color, _c } ->
+        seek_left
+    end
+  
 
 end
